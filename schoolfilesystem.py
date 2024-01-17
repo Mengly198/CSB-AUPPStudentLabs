@@ -64,7 +64,7 @@ class SchoolAssessmentSystem:
         except Exception as e:
             print(f"Error fetching. {e}")
 
-    def analyze_content(data, filename):
+    def analyze_content(self, data, filename):
         file_extension = filename.split('.')[-1].lower()
         
         if file_extension == 'csv':
@@ -79,7 +79,7 @@ class SchoolAssessmentSystem:
         else:
             print("Invalid Analyzation.")
 
-    def generate_summary(data, filename):
+    def generate_summary(self, data, filename):
         file_extension = filename.split('.')[-1].lower()
 
         if file_extension == 'csv':
