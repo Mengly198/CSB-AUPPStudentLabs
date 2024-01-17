@@ -64,16 +64,27 @@ class SchoolAssessmentSystem:
         except Exception as e:
             print(f"Error fetching. {e}")
 
-    def analyze_content(self):
-        #in process
-        pass
+    def analyze_content(data, filename):
+        file_extension = filename.split('.')[-1].lower()
+        
+        if file_extension == 'csv':
+            passCount = 0
+            failCount = 0
+            for i in range(len(data)):
+                if float(data[i]["Overall"])>50:
+                    passCount +=1
+                else:
+                    failCount +=1
+            print(f"{passCount} students have Passed the Overall scores. {failCount} students have Failed the Overall scores.")
+        else:
+            print("Invalid Analyzation.")
 
-    def generate_summary(self):
-        #in process
-        pass
+    def generate_summary(data, filename):
+        file_extension = filename.split('.')[-1].lower()
 
+        if file_extension == 'csv':
+            for i in range(len(data)):
+                print(f"{data[i]['Last Name']} {data[i]['First Name']} With an ID of {data[i]['ID']} has an Overall of {data[i]['Overall']} and need improvements on {data[i]['Improvement']}.")
+        else:
+            print("Invalid Summarization.")
 
-school = SchoolAssessmentSystem()
-school.process_file('lol.txt')
-source_data = school.fetch_web_data(url='https://aupp.edu.kh')
-print(source_data)
