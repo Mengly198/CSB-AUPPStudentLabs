@@ -34,7 +34,7 @@ class SchoolAssessmentSystem:
             return
         file_extension = source_file_path.split('.')[-1].lower()
 
-        if file_extension == 'csv':
+        if source_file_path.endswith('csv'):
             with open(destination_file_path, 'w') as csvfile:
                 writer = csv.DictWriter(csvfile, fieldnames=source_file_path[0].keys())
                 writer.writeheader()
@@ -56,7 +56,7 @@ class SchoolAssessmentSystem:
         try:
             with urlopen(url) as response:
                 source_data = response.read().decode('utf-8')
-            return source_data
+                print(source_data)
         except HTTPError as e:
             print(f"Error. {e}")
         except URLError as e:
@@ -77,7 +77,7 @@ class SchoolAssessmentSystem:
                     failCount +=1
             print(f"{passCount} students have Passed the Overall scores. {failCount} students have Failed the Overall scores.")
         else:
-            print("Invalid Analyzation.")
+            print("No Analyzation found.")
 
     def generate_summary(self, data, filename):
         file_extension = filename.split('.')[-1].lower()
@@ -86,5 +86,18 @@ class SchoolAssessmentSystem:
             for i in range(len(data)):
                 print(f"{data[i]['Last Name']} {data[i]['First Name']} With an ID of {data[i]['ID']} has an Overall of {data[i]['Overall']} and need improvements on {data[i]['Improvement']}.")
         else:
-            print("Invalid Summarization.")
+            print("No summary found.")
 
+Options = input("Enter Number: 1=URL / 2=Filename: ")
+school = SchoolAssessmentSystem()
+if Options == "1":
+    url = input("Enter the URL:")
+    data = school.fetch_web_data(url)
+elif Options == "2":
+    filename = input("Enter the filename: ")
+    data = school.process_file(file_path=filename)
+    school.transfer_data(data, filename)
+    school.analyze_content(data,filename)
+    school.generate_summary(data, filename)
+else:
+    print('Invalid')
